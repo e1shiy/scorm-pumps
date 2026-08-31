@@ -27,7 +27,7 @@ type Exit = {
   value: 'timeout' | 'suspend' | 'logout' | 'normal' | '' // suspend=save, ""=reset
 }
 type Entry = {
-  key: 'cmi.entry'
+  key: 'cmi.entry' // read-only
   value: 'ab-initio' | 'resume' | ''
 }
 type ProgressMeasure = {
@@ -37,6 +37,10 @@ type ProgressMeasure = {
 type ScaledPassingScore = {
   key: 'cmi.scaled_passing_score' // read-only
   value: number // -1..1
+}
+type InteractionsCount = {
+  key: 'cmi.interactions._count ' // read-only
+  value: number
 }
 
 type CMIElement =
@@ -50,6 +54,7 @@ type CMIElement =
   | Entry
   | ProgressMeasure
   | ScaledPassingScore
+  | InteractionsCount
 
 type CMIInteraction = {
   id: string
