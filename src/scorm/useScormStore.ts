@@ -6,6 +6,7 @@ type ScormState = {
   api: SCORM_API | null
 
   isInitialized: boolean
+  isTerminated: boolean
   completionStatus: CompletionStatus
   successStatus: SuccessStatus
   scaledPassingScore: number
@@ -25,6 +26,7 @@ type ScormState = {
 export const useScormStore = create<ScormState>((set, get) => ({
   api: null,
   isInitialized: false,
+  isTerminated: false,
   completionStatus: 'unknown',
   successStatus: 'unknown',
   scaledPassingScore: 0,
@@ -48,8 +50,8 @@ export const useScormStore = create<ScormState>((set, get) => ({
     set({ api, isInitialized: true, scaledPassingScore })
   },
   finish: () => {
-    const { api } = get()
-    if (!api) return
+    const { api, isTerminated } = get()
+    if (isTerminated || !api) return
     if (api.Commit('') === 'false') throw new Error('An error happened while trying to commit')
     if (api.Terminate('') === 'false') throw new Error('An error happened while trying to terminate')
   },
