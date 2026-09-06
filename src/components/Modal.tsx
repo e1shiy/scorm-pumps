@@ -13,11 +13,7 @@ export function Modal({ children, isOpened, onClose, onOpen }: ModalProps) {
     onOpen?.()
     const handleEsc = (e: KeyboardEvent) => e.code === 'Escape' && onClose?.()
     window.addEventListener('keydown', handleEsc)
-    document.body.style.overflow = 'hidden'
-    return () => {
-      window.removeEventListener('keydown', handleEsc)
-      document.body.style.overflow = 'unset'
-    }
+    return () => window.removeEventListener('keydown', handleEsc)
   }, [onOpen, onClose])
 
   const modalRootElement = useMemo(() => document.getElementById('modal-root'), [])
@@ -35,9 +31,7 @@ export function Modal({ children, isOpened, onClose, onOpen }: ModalProps) {
           aria-label='Close modal'
           className='absolute inset-0 w-full h-full cursor-default border-none bg-transparent p-0'
         />
-        <div className='p-5 rounded-st flex flex-col gap-5 bg-light max-w-100 z-2'>
-					{children}
-				</div>
+        <div className='p-5 rounded-st flex flex-col gap-5 bg-light max-w-100 z-2'>{children}</div>
       </div>
     ),
     modalRootElement

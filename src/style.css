@@ -115,7 +115,7 @@
   }
 
   body {
-    @apply font-primary font-bold mx-auto relative bg-blue text-light text-sm leading-3.5;
+    @apply font-primary font-bold mx-auto relative bg-blue text-light text-sm;
   }
 
   #root {
