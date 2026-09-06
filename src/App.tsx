@@ -5,19 +5,20 @@ import { ResultsModal } from './modals/ResultsModal'
 import { ActionPanel } from './widgets/ActionPanel'
 import { ProgressBar } from './widgets/ProgressBar'
 import { EquipmentDiagram } from './widgets/EquipmentDiagram'
+import { useEffect } from 'react'
 
 function App() {
-  // const initialize = useScormStore(s => s.initialize)
-  // const finish = useScormStore(s => s.finish)
-  // useEffect(() => {
-  //   initialize()
-  //   window.addEventListener('beforeunload', finish)
-  //   window.addEventListener('pagehide', finish)
-  //   return () => {
-  //     window.removeEventListener('beforeunload', finish)
-  //     window.removeEventListener('pagehide', finish)
-  //   }
-  // }, [initialize, finish])
+  const initialize = useScormStore(s => s.initialize)
+  const finish = useScormStore(s => s.finish)
+  useEffect(() => {
+    initialize()
+    window.addEventListener('beforeunload', finish)
+    window.addEventListener('pagehide', finish)
+    return () => {
+      window.removeEventListener('beforeunload', finish)
+      window.removeEventListener('pagehide', finish)
+    }
+  }, [initialize, finish])
 
   const isFinished = useScormStore(s => s.isTerminated)
 
