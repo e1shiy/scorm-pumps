@@ -1,6 +1,6 @@
 import { create } from 'zustand'
 import type { CompletionStatus, SCORM_API, SuccessStatus } from './types'
-import { getAPI } from './api'
+import { getAPI } from './getApi'
 
 type ScormState = {
   api: SCORM_API | null
@@ -20,7 +20,7 @@ type ScormState = {
 
   setCompletionStatus: (status: CompletionStatus) => void
   setSuccessStatus: (status: SuccessStatus) => void
-  setScoreRaw: (score: number) => void
+  applyScoreDelta: (delta: number) => void
 }
 
 export const useScormStore = create<ScormState>((set, get) => ({
@@ -52,6 +52,8 @@ export const useScormStore = create<ScormState>((set, get) => ({
   finish: () => {
     const { api, isTerminated } = get()
     if (isTerminated || !api) return
+    
+    set({ isTerminated: true })
     if (api.Commit('') === 'false') throw new Error('An error happened while trying to commit')
     if (api.Terminate('') === 'false') throw new Error('An error happened while trying to terminate')
   },
@@ -72,10 +74,11 @@ export const useScormStore = create<ScormState>((set, get) => ({
     if (api.SetValue('cmi.success_status', status) === 'false') throw new Error('An error happened while trying to set successStatus')
     set({ successStatus: status })
   },
-  setScoreRaw: score => {
-    const { api } = get()
+  applyScoreDelta: delta => {
+    const { api, scoreRaw } = get()
+    const newScore = scoreRaw + delta
     if (!api) throw new Error("Couldn't set score: no api")
-    if (api.SetValue('cmi.score.raw', score) === 'false') throw new Error('An error happened while trying to set score.raw')
-    set({ scoreRaw: score })
+    if (api.SetValue('cmi.score.raw', newScore) === 'false') throw new Error('An error happened while trying to set score.raw')
+    set({ scoreRaw: newScore })
   }
 }))
