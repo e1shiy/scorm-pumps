@@ -2,6 +2,8 @@ import { Button } from '../components/Button'
 import ClockIcon from '../assets/icons/clock.svg?react'
 import TrophyIcon from '../assets/icons/trophy.svg?react'
 import ChevronIcon from '../assets/icons/chevron.svg?react'
+import TaskIcon from '../assets/icons/task.svg?react'
+import CancelIcon from '../assets/icons/cancel.svg?react'
 import { useState } from 'react'
 import { useScormStore } from '../scorm/useScormStore'
 import { useProcedureStore } from '../procedure/useProcedureStore'
@@ -13,6 +15,7 @@ export function HistoryPanel() {
   const scoreMax = useScormStore(s => s.scoreMax)
   const history = useProcedureStore(s => s.history)
 
+  const [isClosed, setIsClosed] = useState(false)
   const [isTaskOpen, setIsTaskOpen] = useState(true)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
@@ -34,38 +37,72 @@ export function HistoryPanel() {
 
   return (
     <>
-      <div className='w-80 shrink-0 flex flex-col gap-2.5'>
-        <div className='flex gap-1.25 justify-between items-center h-10'>
-          <div className='flex gap-2.5 items-center'>
-            <ClockIcon className='w-4 h-4' />
-            <p>История</p>
-          </div>
-          <Button className='border-none w-7 h-full'>
-            <ChevronIcon className='w-2 h-4' />
+      {isClosed ? (
+        <div className='w-7 shrink-0 flex flex-col gap-2.5'>
+          <Button onClick={() => setIsClosed(false)} className='border-none w-full h-10'>
+            <ChevronIcon className='w-2 h-4 rotate-180' />
           </Button>
-        </div>
-        <div className='grow min-h-0 flex flex-col gap-5'>
-          <div className={'bg-light rounded-st grow overflow-y-auto'}>
-            <div className='flex flex-col gap-5 min-h-full p-2.5 pr-3 relative'>
-              <span className='w-px bg-blue absolute h-full top-0 right-8' />
-              {renderedHistory}
+          <button
+            onClick={() => setIsClosed(false)}
+            className='grow flex flex-col justify-between g-1.25 py-3.75 cursor-pointer rounded-st hover:bg-dark/60'
+          >
+            <div className='flex-center flex-col gap-2.5'>
+              <ClockIcon className='w-4 h-4' />
+              <p className='[writing-mode:vertical-rl] tracking-[1.5px] font-normal'>История</p>
             </div>
-          </div>
-          <div className='flex gap-1.25 justify-between items-center'>
-            <div className='flex gap-2.5 items-center'>
-              <TrophyIcon className='w-4 h-4' />
-              <p className='font-semibold'>Набранные баллы:</p>
+            <div className='flex-center flex-col gap-1.25'>
+              <div className='flex-center flex-col gap-2.5'>
+                <TrophyIcon className='w-4 h-4' />
+                <p className='font-semibold [writing-mode:vertical-rl] tracking-[1.5px]'>Баллы:</p>
+              </div>
+              <p className='font-semibold [writing-mode:vertical-rl] tracking-[1.5px]'>
+                {scoreRaw} <span className='text-gray'>из {scoreMax}</span>
+              </p>
             </div>
-            <p className='font-semibold'>
-              {scoreRaw} <span className='text-gray'>из {scoreMax}</span>
-            </p>
-          </div>
+          </button>
           <div className='flex flex-col gap-2.5'>
-            <Button onClick={() => setIsTaskOpen(true)}>Задание</Button>
-            <Button onClick={() => setIsConfirmOpen(true)}>Завершить досрочно</Button>
+            <Button onClick={() => setIsTaskOpen(true)} className='p-1'>
+              <TaskIcon />
+            </Button>
+            <Button onClick={() => setIsConfirmOpen(true)} className='p-1'>
+              <CancelIcon />
+            </Button>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className='w-80 shrink-0 flex flex-col gap-2.5'>
+          <div className='flex gap-1.25 justify-between items-center h-10'>
+            <div className='flex gap-2.5 items-center'>
+              <ClockIcon className='w-4 h-4' />
+              <p>История</p>
+            </div>
+            <Button onClick={() => setIsClosed(true)} className='border-none w-7 h-full'>
+              <ChevronIcon className='w-2 h-4' />
+            </Button>
+          </div>
+          <div className='grow min-h-0 flex flex-col gap-5'>
+            <div className={'bg-light rounded-st grow overflow-y-auto'}>
+              <div className='flex flex-col gap-5 min-h-full p-2.5 pr-3 relative'>
+                <span className='w-px bg-blue absolute h-full top-0 right-8' />
+                {renderedHistory}
+              </div>
+            </div>
+            <div className='flex gap-1.25 justify-between items-center'>
+              <div className='flex gap-2.5 items-center'>
+                <TrophyIcon className='w-4 h-4' />
+                <p className='font-semibold'>Набранные баллы:</p>
+              </div>
+              <p className='font-semibold'>
+                {scoreRaw} <span className='text-gray'>из {scoreMax}</span>
+              </p>
+            </div>
+            <div className='flex flex-col gap-2.5'>
+              <Button onClick={() => setIsTaskOpen(true)}>Задание</Button>
+              <Button onClick={() => setIsConfirmOpen(true)}>Завершить досрочно</Button>
+            </div>
+          </div>
+        </div>
+      )}
       <TaskModal isOpened={isTaskOpen} onClose={() => setIsTaskOpen(false)} />
       <FinishModal isOpened={isConfirmOpen} onClose={() => setIsConfirmOpen(false)} />
     </>
