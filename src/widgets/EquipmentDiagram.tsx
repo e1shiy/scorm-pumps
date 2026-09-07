@@ -24,11 +24,14 @@ export function EquipmentDiagram() {
   const upScale = () => setScale(s => Math.min(s + 0.25, 10))
   const downScale = () => setScale(s => Math.max(s - 0.25, 1))
 
-  const handleWheel = (e: React.WheelEvent) => {
-    e.preventDefault()
-    if (e.deltaY < 0) upScale()
-    else downScale()
-  }
+  const handleWheel = useCallback((e: WheelEvent) => (e.deltaY < 0 ? upScale() : downScale()), [])
+  useEffect(() => {
+    const diagram = diagramRef.current
+    if (!diagram) return
+
+    diagram.addEventListener('wheel', handleWheel)
+    return () => diagram.removeEventListener('wheel', handleWheel)
+  })
 
   const [isFullscreen, setIsFullscreen] = useState(false)
 
@@ -85,7 +88,6 @@ export function EquipmentDiagram() {
     <div
       className={'grow relative bg-light rounded-st overflow-auto scrollbar-none w-full h-full cursor-grab select-none'}
       ref={diagramRef}
-      onWheel={handleWheel}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
