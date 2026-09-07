@@ -3,7 +3,7 @@ import ScaleUpIcon from '../assets/icons/scale-up.svg?react'
 import ScaleDownIcon from '../assets/icons/scale-down.svg?react'
 import ScaleResetIcon from '../assets/icons/scale-reset.svg?react'
 import FullscreenIcon from '../assets/icons/fullscreen.svg?react'
-import PumpArtwork from '../assets/123.svg?react'
+import PumpArtwork from '../assets/pump.svg?react'
 import { useProcedureStore } from '../procedure/useProcedureStore'
 import { useState } from 'react'
 import { RotateShaftModal } from '../modals/RotateShaftModal'
@@ -54,9 +54,7 @@ export function EquipmentDiagram() {
       </div>
 
       <svg viewBox='0 0 558 441' className='w-full h-full flex-center p-4'>
-        <g transform={'translate(50, 0)'}>
-          <PumpArtwork />
-        </g>
+        <PumpArtwork />
 
         <g>
           <foreignObject x={0.5} y={201.5} width={103} height={25}>
