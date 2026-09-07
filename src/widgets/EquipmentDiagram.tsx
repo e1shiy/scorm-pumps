@@ -67,10 +67,10 @@ export function EquipmentDiagram() {
 
   const isShutoffValveOpen = currentStepIndex >= 2
   const handleShaftClick = () => {
-    if (currentStepIndex < 4) {
-      submitAction('rotate-shaft-clockwise')
-    } else if (currentStepIndex === 4) {
+    if (currentStepIndex === 4) {
       setIsShaftModalOpen(true)
+    } else {
+      submitAction('rotate-shaft-clockwise')
     }
   }
 
