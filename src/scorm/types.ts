@@ -1,9 +1,10 @@
 export type CompletionStatus = 'completed' | 'incomplete' | 'not attempted' | 'unknown'
 export type SuccessStatus = 'passed' | 'failed' | 'unknown'
-type ScaledPassingScore = number // -1...1
-type ScoreRaw = number
-type ScoreMin = number
-type ScoreMax = number
+type ScaledPassingScore = string // -1...1
+type ScoreRaw = string
+type ScoreMin = string
+type ScoreMax = string
+type ScoreScaled = string // -1...1
 
 type CMIElementMap = {
   'cmi.completion_status': CompletionStatus
@@ -12,6 +13,7 @@ type CMIElementMap = {
   'cmi.score.raw': ScoreRaw
   'cmi.score.min': ScoreMin
   'cmi.score.max': ScoreMax
+  'cmi.score.scaled': ScoreScaled 
 }
 
 export type SCORM_API = {
