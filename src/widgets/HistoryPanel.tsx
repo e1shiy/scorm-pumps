@@ -15,7 +15,7 @@ export function HistoryPanel() {
   const scoreMax = useScormStore(s => s.scoreMax)
   const history = useProcedureStore(s => s.history)
 
-  const [isClosed, setIsClosed] = useState(false)
+  const [isClosed, setIsClosed] = useState(window.innerWidth < 768)
   const [isTaskOpen, setIsTaskOpen] = useState(true)
   const [isConfirmOpen, setIsConfirmOpen] = useState(false)
 
@@ -70,7 +70,7 @@ export function HistoryPanel() {
           </div>
         </div>
       ) : (
-        <div className='w-80 shrink-0 flex flex-col gap-2.5'>
+        <div className='w-80 max-md:w-70 shrink-0 flex flex-col gap-2.5'>
           <div className='flex gap-1.25 justify-between items-center h-10'>
             <div className='flex gap-2.5 items-center'>
               <ClockIcon className='w-4 h-4' />

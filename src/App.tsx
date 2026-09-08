@@ -27,7 +27,7 @@ function App() {
       <div className='grow max-h-full flex gap-2.5 p-2.5'>
         <div className='grow flex flex-col gap-2.5'>
           <div className='flex gap-3 h-10'>
-            <img className='w-31 h-full' src={logoSrc} alt='ЕвроХим' loading='lazy' />
+            <img className='w-31 h-full shrink-0' src={logoSrc} alt='ЕвроХим' loading='lazy' />
             <ProgressBar />
           </div>
           <div className='grow flex gap-2.5'>

@@ -6,7 +6,7 @@ import { useState } from 'react'
 
 export function ActionPanel() {
   const submitAction = useProcedureStore(s => s.submitAction)
-  const [isClosed, setIsClosed] = useState(false)
+  const [isClosed, setIsClosed] = useState(window.innerWidth < 768)
 
   return isClosed ? (
     <button
@@ -20,21 +20,21 @@ export function ActionPanel() {
       </div>
     </button>
   ) : (
-    <div className='w-80 shrink-0 bg-light text-blue rounded-st p-2.5 flex flex-col gap-5'>
+    <div className='w-80 max-md:w-60 shrink-0 bg-light text-blue rounded-st p-2.5 flex flex-col gap-5'>
       <div className='flex justify-between items-center gap-1.25'>
         <div className='flex gap-2.5 flex-center'>
           <SettingsIcon className='w-4 h-4' />
-          <p>Действия по установке</p>
+          <p className='text-nowrap'>Действия по установке</p>
         </div>
         <Button onClick={() => setIsClosed(true)} variant='light-borderless' className='w-8 h-8'>
           <ChevronIcon className='w-2.5 h-3.5 rotate-180' />
         </Button>
       </div>
       <div className='flex flex-col gap-2.5'>
-        <Button onClick={() => submitAction('visual-inspection')} variant='light'>
+        <Button onClick={() => submitAction('visual-inspection')} variant='light' className='text-nowrap'>
           Визуальный осмотр
         </Button>
-        <Button onClick={() => submitAction('start-electric-motor')} variant='light'>
+        <Button onClick={() => submitAction('start-electric-motor')} variant='light' className='text-nowrap'>
           Пуск электродвигателя
         </Button>
       </div>

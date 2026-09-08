@@ -16,7 +16,10 @@ export function ProgressBar() {
           'after:absolute after:left-0 after:w-(--sco-progress) after:transition-[width] after:h-full after:bg-orange after:rounded-[3px]'
         )}
       >
-        <p className='text-dark font-semibold z-2'>Прогресс прохождения: {progress}%</p>
+        <p className='text-dark font-semibold z-2 text-nowrap'>
+          <span className='max-md:hidden'>Прогресс прохождения: </span>
+          {progress}%
+        </p>
       </div>
     </div>
   )
